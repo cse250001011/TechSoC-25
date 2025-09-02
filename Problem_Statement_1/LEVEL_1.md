@@ -47,29 +47,72 @@ By completing this challenge, you will:
 - Handle edge cases and input validation
 - Debug and test your code systematically
 - Think about algorithm efficiency and security
-- for i in range(1,10):
-	message = input('Enter the data to be encoded:')
-	encrypted_words = ""
-	for word in message:
-		for letter in word:
-			a = ord(letter)
-			if (64<a<88 or 96<a<120 ):
-				b = a + 3
-			elif (a == 88,89,90,130,121,122):
-				b = a - 23
-			else:
-				b = a
-			encrypted_words += chr(b)
-	print('Encrypted message : ',encrypted_words)
-	real_words = ""
-	for word in encrypted_words:
-		for letter in word:
-			a = ord(letter)
-			if (67<a<91 or 99<a<123):
-				b = a - 3
-			elif (a == 65,66,67,97,98,99):
-				b = a + 23
-			else:
-				b = a
-			real_words += chr(b)
-	print('Decoded message : ',real_words)
+- #include <iostream>
+using namespace std;
+
+int main()
+{
+    string s;
+    cout << "Enter shift value: ";
+    int shift;
+    cin >> shift;
+
+    cin.ignore(); // <-- important, clear newline from buffer
+
+    cout << "Enter message to be encoded: ";
+    getline(cin, s);
+
+    int i;
+    char ch;
+    int n = s.length();
+    string enc = "";
+    shift = shift % 26;
+
+   
+    for(i=0;i<n;i++)
+    {
+        ch=s[i];
+        if(ch>=65 && ch<=90)
+        {
+            ch+=shift;
+            if(ch>90)
+            {
+                ch=ch-26;
+            }
+        }
+        else if(ch>=97 && ch<=122)
+        {
+            ch-=(26-shift);
+            if(ch<97)
+            {
+                ch=ch+26;
+            }
+        }
+        enc+=ch;
+    }
+    string dec="";
+    cout<<"Encoded message: "<<enc<<endl;
+    for(i=0;i<n;i++)
+    {
+        ch=enc[i];
+        if(ch>=65 && ch<=90)
+        {
+            ch-=shift;
+            if(ch<65)
+            {
+                ch=ch+26;
+            }
+        }
+        else if(ch>=97 && ch<=122)
+        {
+            ch-=shift;
+            if(ch<97)
+            {
+                ch=ch+26;
+            }
+        }
+        dec+=ch;
+    }
+    cout<<"Decoded message: "<<dec<<endl;
+    return 0;
+}
